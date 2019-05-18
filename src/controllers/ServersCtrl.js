@@ -30,6 +30,25 @@ export default class {
     }).closePromise).value == 1)
       await this.init();
   }
+
+  async upload_log(server_id, file) {
+    swal.showLoading();
+
+    await this.$ottp({
+      endpoint: 'main',
+      method: 'POST',
+      path: `server/${server_id}/apache2`,
+      data: file,
+      uploadEventHandlers: {
+        progress: (event) => {
+          var percent = event.loaded / event.total * 100;
+          swal.getContent().innerHTML = '<div class="text-center">Processing the data: <b>' + Number(percent) + '%</b></div>';
+        }
+      }
+    });
+
+    swal.close();
+  }
   
   async delete(id) {
     var res = await swal.fire({

@@ -185,4 +185,44 @@ export default angular
            controllerAs: 'ctrl2'
        };
    })
+   .directive('fileSelection', function($parse) {
+    "use strict";
+
+    return {
+        restrict: 'A',
+        transclude: true,
+        scope: {
+          fileSelection: '&'
+        },
+        template: `
+          <input type="file" style="display:none" />
+          <ng-transclude></ng-transclude>
+        `,
+        link(scope, element) {
+          var file_input = element.find('input[type=file]');
+
+          file_input.on('change', function(event) {
+             event.preventDefault();
+             event.stopImmediatePropagation();
+             
+             var file = file_input[0].files[0];
+
+             file_input
+               .attr("value", "")
+               .val("");
+
+             scope.fileSelection({$file: file});
+          });
+
+          element.on('click', function(event) {
+            if(event.originalEvent) {
+              event.preventDefault();
+
+              file_input
+                .trigger('click');
+            }
+           });
+        }
+      };
+    })
     .name;

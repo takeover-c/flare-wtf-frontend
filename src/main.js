@@ -88,7 +88,7 @@ angular
       try {
         return await $oauth.$http(config);
       } catch (e) {
-        swal.fire('Hata', (e.data && e.data.message) || e.message || 'Hata Oluştu', 'error');
+        swal.fire('Error', (e.data && e.data.message) || e.message || 'Unknown error occurred.', 'error');
         throw e;
       }
     };
