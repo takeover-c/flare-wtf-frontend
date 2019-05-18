@@ -1,0 +1,12 @@
+<div class="login-bg" >
+    <div class="login-container">
+        <div class="card card-container" loading-container ng-if="!ctrl.stores">
+            <h1 class="admin-text">Admin</h1>
+            <form class="form-signin">
+                <input type="text" ng-model="ctrl.username" class="form-control" placeholder="Email address" required autofocus>
+                <input type="password" ng-model="ctrl.password" class="form-control" placeholder="Password" required>
+                <button ng-click="load(ctrl.login())" class="btn btn-lg btn-primary btn-block btn-signin mt-3" type="submit">Sign in</button>
+            </form>
+        </div>
+    </div>
+</div>

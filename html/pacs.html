@@ -1,0 +1,38 @@
+<div loading-container>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a ui-sref="page.home">Home</a></li>
+      <li class="breadcrumb-item"><a ui-sref="page.pacs">Tokens</a></li>
+    </ol>
+  </nav>
+    <div class="row">
+        <div class="col-md-8 form-inline">
+            <div class="form-group">
+                <a class="btn btn-primary" href ng-click="ctrl.edit_or_add()"><i class="fa fa-plus" aria-hidden="true"></i> Add Token</a>
+            </div>
+            </div>
+        </div>
+        <div class="col-md-4 text-right">
+        </div>
+    </div>
+    <table class="table table-striped mt-3">
+        <thead>
+          <tr>
+              <th scope="col" >ID</th>
+              <th scope="col" class="text-center">Label</th>
+              <th scope="col" class="text-center">Created at</th>
+              <th scope="col" class="text-center">Last used</th>
+              <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="pac in ctrl.pacs">
+              <th scope="row">{{ pac.id }}</th>
+              <td class="text-center">{{ pac.name }}</td>
+              <td class="text-center">{{ pac.created_at | date : 'medium' }}</td>
+              <td class="text-center">{{ pac.last_used | date : 'medium' }}</td>
+              <td><button type="button" class="btn btn-outline-primary btn-sm" ng-click="load(ctrl.edit_or_add(pac.id))"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button> <button type="button" class="btn btn-outline-danger btn-sm" ng-click="load(ctrl.delete(pac.id))"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button></td>
+          </tr>
+        </tbody>
+    </table>
+</div>
