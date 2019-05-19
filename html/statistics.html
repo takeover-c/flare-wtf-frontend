@@ -1,0 +1,136 @@
+<div loader="!ctrl.stats" class="page-vh">
+  <h3>General</h3>
+  <ol>
+    <li>
+      <h4>How much traffic has the server handled?</h4>
+      <p>It handled <b>{{ ctrl.stats.total_requests }}</b> requests resulting <b>{{ ctrl.stats.total_response_bytes | prettysize }}</b> of response data from <b>{{ ctrl.stats.start_date | date : 'medium' }}</b> to <b>{{ (ctrl.stats.start_date | date : 'mediumDate') == (ctrl.stats.end_date | date : 'mediumDate') ? (ctrl.stats.end_date | date : 'mediumTime') : (ctrl.stats.end_date | date : 'medium') }}</b>.</p>
+    </li>
+    <li>
+      <h4>How many requests generated requests a 5xx server error?</h4>
+      <p><b>{{ ctrl.stats.error_responses }}</b> requests returned 5xx server error.</p>
+    </li>
+    <li>
+      <h4>How many distinct IPs visited the server?</h4>
+      <p><b>{{ ctrl.stats.distinct_ips }}</b> distinct IP addresses have visited the server.</p>
+    </li>
+  </ol>
+  <h3>Data Mining</h3>
+  <ol>
+    <li>
+      <h4>What percentage of the requests do you consider a server attack?</h4>
+      <p><b>{{ ctrl.stats.flagged_requests / ctrl.stats.total_requests * 100 | number : 2 }}%</b></p>
+    </li>
+    <li>
+      <h4>How many SQL Injections, XSS and "Local File Inclusion (LFI)" attacks have
+          you recognised in total?</h4>
+      <p><b>{{ ctrl.stats.flagged_requests }}</b> attacks in total divided by following:</p>
+      <p>
+        <ol>
+          <li ng-repeat="vuln in ctrl.stats.by_vuln"><b><span ng-repeat="v in page.getFlagsAsArray(vuln.key)">{{ v }}{{ !$last ? ', ' : '' }}</span></b>: <b>{{ vuln.count }}</b> attacks. <b>{{ vuln.count / ctrl.stats.flagged_requests * 100 | number : 2 }}%</b> of total attacks.</li>
+        </ol>
+      </p>
+    </li>
+    <li>
+      <h4>Which 5 pages had the most attacks?</h4>
+      <p>
+        <ol>
+          <li ng-repeat="page in ctrl.stats.top_pages">
+            <b>{{ page.key }}</b>: <b>{{ page.count }}</b> attacks. <b>{{ page.count / ctrl.stats.flagged_requests * 100 | number : 2 }}%</b> of total attacks.
+          </li>
+        </ol>
+      </p>
+    </li>
+    <li>
+      <h4>Which country generated the most attacks?</h4>
+      <p>
+        <ol>
+          <li ng-repeat="country in ctrl.stats.by_countries">
+            <b>{{ country.key }}</b>: <b>{{ country.count }}</b> attacks. <b>{{ country.count / ctrl.stats.flagged_requests * 100 | number : 2 }}%</b> of total attacks.
+          </li>
+        </ol>
+      </p>
+    </li>
+    <li>
+      <h4>What time of the day generated the most attacks?</h4>
+      <p>
+        <ol>
+          <li ng-repeat="hour in ctrl.stats.by_hourly">
+            <b>{{ hour.key }}.00 - {{ hour.key + 1 }}.00</b>: <b>{{ hour.count }}</b> attacks. <b>{{ hour.count / ctrl.stats.flagged_requests * 100 | number : 2 }}%</b> of total attacks.
+          </li>
+        </ol>
+      </p>
+    </li>
+  </ol>
+  <h3>UI - Visualisation</h3>
+  <ol>
+    <li>
+      <h4>Visualise the number of server requests/hr in a graph (Requests per Hour)</h4>
+      <p>
+        <div aspect-ratio="8/16">
+          <div class="yw yh" charts="ctrl.drawRequestsHr(google, element)"></div>
+        </div>
+      </p>
+    </li>
+    <li>
+      <h4>Visualise the total number of server requests/country in a pie chart (Total Requests per Country)</h4>
+      <p>
+        <div aspect-ratio="8/16">
+          <div class="yw yh" charts="ctrl.drawCountryPie(google, element)"></div>
+        </div>
+      </p>
+    </li>
+    <li>
+      <h4>Visualise the attack requests/hour on a map</h4>
+      <p>
+        <div class="row">
+          <div class="col-md-3">
+            <h5>Filter by hour</h5>
+
+            <ui-select class="inline-block" ng-model="ctrl.filter" ng-change="ctrl.redrawGeoChart(ctrl.filter)">
+                <ui-select-match placeholder="Select Hour...">
+                  <span>{{ $select.selected.key }}.00 - {{ $select.selected.key + 1 }}.00</span>
+                </ui-select-match>
+                <ui-select-choices repeat="item.key as item in (ctrl.stats.by_really_hourly | filter: $select.search) track by item.key">
+                  <span>{{ item.key }}.00 - {{ item.key + 1 }}.00</span>
+                </ui-select-choices>
+            </ui-select>
+
+            <a ng-if="ctrl.filter!==undefined&&ctrl.filter!==null" href class="btn btn-outline-primary btn-sm mt-3" ng-click="ctrl.filter=null;ctrl.redrawGeoChart(-1)">Clear selection</a>
+          </div>
+          <div class="col-md-9">
+            <div aspect-ratio="8/16">
+              <div class="yw yh" charts="ctrl.drawGeoChart(google, element)"></div>
+            </div>
+          </div>
+        </div>
+      </p>
+    </li>
+  </ol>
+  <h3>Bonus</h3>
+  <ol>
+    <li>
+      <h4>Which is the most dangerous IP according to you and why?</h4>
+      <p>
+        It is <b>{{ ctrl.stats.dangerous_ip.ip.ip }}</b> and originates from <b>{{ ctrl.stats.dangerous_ip.ip.country_name }}</b>.
+        It made <b>{{ ctrl.stats.dangerous_ip.bad_count / ctrl.stats.total_requests * 100 | number : 2 }}%</b>
+        of total attacks (that is <b>{{ ctrl.stats.dangerous_ip.bad_count }}</b> attacks)
+
+        among of <b>{{ ctrl.stats.dangerous_ip.by_vuln.length }}</b> vulnerabilities
+        <span ng-if="ctrl.stats.dangerous_ip.rival">that is <b>{{ (ctrl.stats.dangerous_ip.bad_count - ctrl.stats.dangerous_ip.rival.bad_count) / ctrl.stats.total_requests * 100 | number : 2 }}%</b> more compared to its international rival (<b>{{ ctrl.stats.dangerous_ip.rival.ip.ip }}</b> / <b>{{ ctrl.stats.dangerous_ip.rival.ip.country_name }}</b>)</span>
+        .
+
+        This IP seems belong to "<b>{{ ctrl.stats.dangerous_ip.ip.organisation }}</b>"
+        <span ng-if="ctrl.stats.dangerous_ip.ip.organisation != ctrl.stats.dangerous_ip.ip.isp">, ISP providing this IP is "<b>{{ ctrl.stats.dangerous_ip.ip.isp }}</b>"</span>
+        <span ng-if="ctrl.stats.dangerous_ip.ip.organisation == ctrl.stats.dangerous_ip.ip.isp">and it looks like it is <b>residental</b> network</span>
+        <span ng-if="ctrl.stats.dangerous_ip.ip.city_name"> (<b>{{ ctrl.stats.dangerous_ip.ip.city_name }}</b>).</span>
+        <span ng-if="!ctrl.stats.dangerous_ip.ip.city_name"> and city information not available for this specific IP address 
+          <span ng-if="!ctrl.stats.dangerous_ip.next_with_city">:(</span>
+          <span ng-if="ctrl.stats.dangerous_ip.next_with_city"> but we have <b>{{ ctrl.stats.dangerous_ip.next_with_city.ip.ip }}</b>
+            which<b ng-if="ctrl.stats.dangerous_ip.next_with_city.ip.country_code == ctrl.stats.dangerous_ip.next_with_city.ip.country_code"> is also</b> originates from <b>{{ ctrl.stats.dangerous_ip.next_with_city.ip.country_name }}</b>.
+            Although it made <b>{{ (ctrl.stats.dangerous_ip.next_with_city.bad_count - ctrl.stats.dangerous_ip.bad_count) / ctrl.stats.total_requests * 100 | number : 2 }}%</b>
+            less attacks. We know it is located in the city of <b>{{ ctrl.stats.dangerous_ip.next_with_city.ip.city_name }}</b> of <b>{{ ctrl.stats.dangerous_ip.next_with_city.ip.country_name }}</b></span>
+        .</span>
+      </p>
+    </li>
+  </ol>
+</div>

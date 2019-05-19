@@ -31,6 +31,10 @@
   height: 100%;
 }
 
+.yw {
+  width: 100%;
+}
+
 .ngdialog.ngdialog-theme-plain2 .ngdialog-content {
   width: 900px;
 }
@@ -56,7 +60,7 @@ td {
   text-align:center;
 }
 
-.page-vh, .page-vh > .row, .page-vh > .container > div, .page-vh > .container > div > div {
+.page-vh, .page-vh > .row, .page-vh > .container > div, .page-vh > .container > div > div, .page-vh > .loading {
   min-height: calc(100vh - 134px);
 }
 

@@ -1,7 +1,8 @@
 'use strict';
 
 const angular = require('angular'),
-      cropper = require('modal-cropper');
+      cropper = require('modal-cropper'),
+      prettysize = require('prettysize');
 
 require('cropperjs').default = require('cropperjs');
 
@@ -9,6 +10,9 @@ export default angular
     .module('flare.cropper', [
         require('ng-dialog')
     ])
+    .filter('prettysize', function() {
+      return prettysize;
+    })
     .factory('uploader', function ($http, $ottp) {
       'ngInject';
 

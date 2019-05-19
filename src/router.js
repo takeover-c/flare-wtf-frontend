@@ -35,11 +35,16 @@ export default require('angular')
             template: require('../html/home.html'),
             controllerAs: 'ctrl',
           })
-          
           .state('page.servers', {
             url: '/server',
             template: require('../html/servers.html'),
             controller: require('./controllers/ServersCtrl.js').default,
+            controllerAs: 'ctrl'
+          })
+          .state('page.statistics', {
+            url: '/server/{server_id}/statistics',
+            template: require('../html/statistics.html'),
+            controller: require('./controllers/StatisticsCtrl.js').default,
             controllerAs: 'ctrl'
           })
           .state('page.users', {

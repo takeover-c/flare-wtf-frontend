@@ -30,7 +30,8 @@ angular
     require('ui-select'),
     require('./upload.js').default,
     require('angular-sanitize'),
-    require('angular-loading-bar')
+    require('angular-loading-bar'),
+    require('./charts.js').default
   ])
   .config(function($sceProvider, $compileProvider){
     'ngInject';
@@ -107,7 +108,7 @@ angular
         transclude: true,
         template: `
           <div ng-if="!loader" ng-transclude></div>
-          <div ng-if="loader" class="loading-container loading yh"></div>`
+          <div ng-if="loader" class="loading-container loading"></div>`
     };
   })
   .run(function($transitions, $rootScope, $oauth) {
