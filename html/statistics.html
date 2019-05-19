@@ -110,7 +110,10 @@
   <ol>
     <li>
       <h4>Which is the most dangerous IP according to you and why?</h4>
-      <p>
+      <p ng-if="!ctrl.stats.dangerous_ip">
+        Not enought data to answer this question.
+      </p>
+      <p ng-if="ctrl.stats.dangerous_ip">
         It is <b>{{ ctrl.stats.dangerous_ip.ip.ip }}</b> and originates from <b>{{ ctrl.stats.dangerous_ip.ip.country_name }}</b>.
         It made <b>{{ ctrl.stats.dangerous_ip.bad_count / ctrl.stats.total_requests * 100 | number : 2 }}%</b>
         of total attacks (that is <b>{{ ctrl.stats.dangerous_ip.bad_count }}</b> attacks)
