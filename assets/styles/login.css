@@ -1,4 +1,8 @@
 
+.logo-container {
+    padding: 10px 50px 20px 50px;
+}
+
 .login-bg {
     width: 100vw;
     height: 100vh;
@@ -28,7 +32,7 @@
 
 .card-container.card {
     width: 315px;
-    padding: 40px 40px;
+    padding: 20px 40px 40px 40px;
     background-color: rgb(255, 255, 255, .50);
 }
 
@@ -94,7 +98,7 @@
 }
 
 .btn.btn-signin {
-    background-color: grey;
+    background-color: rgb(230, 150, 79);
     padding: 0px;
     font-weight: 700;
     font-size: 14px;
@@ -113,7 +117,7 @@
 .btn.btn-signin:active,
 .btn.btn-signin:focus {
     color: black!important;
-    background-color: yellow!important;
+    background-color: rgb(200, 150, 79);
     box-shadow: none!important;
 }
 

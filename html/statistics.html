@@ -125,7 +125,7 @@
         This IP seems belong to "<b>{{ ctrl.stats.dangerous_ip.ip.organisation }}</b>"
         <span ng-if="ctrl.stats.dangerous_ip.ip.organisation != ctrl.stats.dangerous_ip.ip.isp">, ISP providing this IP is "<b>{{ ctrl.stats.dangerous_ip.ip.isp }}</b>"</span>
         <span ng-if="ctrl.stats.dangerous_ip.ip.organisation == ctrl.stats.dangerous_ip.ip.isp">and it looks like it is <b>residental</b> network</span>
-        <span ng-if="ctrl.stats.dangerous_ip.ip.city_name"> (<b>{{ ctrl.stats.dangerous_ip.ip.city_name }}</b>).</span>
+        <span ng-if="ctrl.stats.dangerous_ip.ip.city_name"> and the city this IP belongs to <b>{{ ctrl.stats.dangerous_ip.ip.city_name }}</b>.</span>
         <span ng-if="!ctrl.stats.dangerous_ip.ip.city_name"> and city information not available for this specific IP address 
           <span ng-if="!ctrl.stats.dangerous_ip.next_with_city">:(</span>
           <span ng-if="ctrl.stats.dangerous_ip.next_with_city"> but we have <b>{{ ctrl.stats.dangerous_ip.next_with_city.ip.ip }}</b>

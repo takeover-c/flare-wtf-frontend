@@ -118,6 +118,10 @@ td {
   text-decoration: none !important;
 }
 
+.logo img {
+  height: 35px;
+}
+
 .ui-select-focusser {
   display: none !important;
 }

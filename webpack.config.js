@@ -2,6 +2,7 @@
 var webpack = require('webpack');
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 module.exports = {
     mode: 'development',
@@ -68,6 +69,7 @@ module.exports = {
         ]
     },
     plugins: [
+        new FaviconsWebpackPlugin('./assets/images/flarefavi.png'),
         new webpack.ProvidePlugin({
             'window.jQuery': 'jquery',
             jQuery: 'jquery',
