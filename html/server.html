@@ -4,6 +4,25 @@
       <label>Name</label>
       <input type="text" class="form-control" placeholder="" ng-model="ctrl.model.name" autofocus>
     </div>
+    <div class="custom-control custom-checkbox">
+      <input type="checkbox" class="custom-control-input" id="cloud_protection" ng-model="ctrl.model.proxy_active" ng-value="true">
+      <label class="custom-control-label" for="cloud_protection">Enable cloud based protection</label>
+    </div>
+    <div class="custom-control custom-checkbox mt-1" ng-if="ctrl.model.proxy_active">
+      <input type="checkbox" class="custom-control-input" id="malicious_requests" ng-model="ctrl.model.proxy_block_requests" ng-value="true">
+      <label class="custom-control-label" for="malicious_requests">Block malicious requests</label>
+    </div>
+    <div class="form-group" ng-if="ctrl.model.proxy_active">
+      <label>Origin IP</label>
+      <input type="text" class="form-control" placeholder="" ng-model="ctrl.model.origin_ip">
+    </div>
+    <div class="form-group" ng-if="ctrl.model.proxy_active">
+      <label>Domains</label>
+      <input type="text" class="form-control mb-2" placeholder="Type here to add new..." ng-repeat="model in (ctrl.model.domains | add_one) track by $index" ng-model="ctrl.refer(ctrl.model.domains, $index).val">
+      <small class="form-text text-muted">
+        Delete existing <b>A</b> or <b>CNAME</b> records from these domains and put <b>CNAME</b> record with a value of <b>cnd.flare.wtf</b><br />For extended security, only allow connections from <b>176.31.106.179</b> where we filter the requests and proxy to your server.
+      </small>
+    </div>
     <a href class="btn btn-success btn-block btn-save" ng-click="load(ctrl.save())">Save</a>
     <a href class="btn btn-outline-danger btn-block" ng-click="closeThisDialog(0)">Cancel</a>
   </div>

@@ -17,7 +17,7 @@ export default class {
       });
     } else {
       this.model = {
-        
+        domains: []
       };
     }
   }
@@ -31,5 +31,39 @@ export default class {
     });
     
     this.$scope.closeThisDialog(1);
+  }
+
+  refer(array, i) {
+    var that = this;
+    if(array && array.length && i < array.length) {
+      return {
+        get val() {
+          return array[i];
+        },
+
+        set val(a) {
+          if(a == "") {
+            array.splice(i, 1);
+            return "";
+          } else {
+            array[i] = a;
+          }
+        }
+      };
+    } else {
+      return {
+        a: "",
+
+        get val() {
+          return "";
+        },
+
+        set val(a) {
+          if(a != "") {
+            array.push(a);
+          }
+        }
+      };
+    }
   }
 };
