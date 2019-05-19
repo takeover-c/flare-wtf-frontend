@@ -44,7 +44,7 @@
       <h4>Which country generated the most attacks?</h4>
       <p>
         <ol>
-          <li ng-repeat="country in ctrl.stats.by_countries">
+          <li ng-repeat="country in ctrl.stats.by_countries2">
             <b>{{ country.key }}</b>: <b>{{ country.count }}</b> attacks. <b>{{ country.count / ctrl.stats.flagged_requests * 100 | number : 2 }}%</b> of total attacks.
           </li>
         </ol>

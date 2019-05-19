@@ -1,16 +1,7 @@
-# Project skeleton
-An example of a Hackathon project skeleton
 
-## About
+Frontend of Flare application. Runs live under https://flare.wtf/
 
-## Requirements
-
-## Install
-
-## Usage
-
-## Live demo
-
-## License
+Presentation can be found in presentation.pdf file in the root repository.
 
 [MIT](LICENSE)
+
